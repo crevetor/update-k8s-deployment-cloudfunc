@@ -6,5 +6,6 @@ steps:
   'new-image-trigger',
   '--runtime=python37',
   '--trigger-topic=cloud-builds',
+  '--entry-point=onNewImage',
   '--region=us-east1',
   '--source=https://source.developers.google.com/projects/$PROJECT_ID/repos/$REPO_NAME']

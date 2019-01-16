@@ -1,4 +1,4 @@
-def new-image-trigger(data, context):
+def onNewImage(data, context):
     import base64
     import json
     import kubernetes
