@@ -1,0 +1,8 @@
+steps:
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: 'test'
+  args: ['functions',
+  'deploy',
+  'new-image-trigger',
+  '--region=us-east1',
+  '--source=https://source.developers.google.com/projects/$PROJECT_ID/repos/$REPO_NAME']
