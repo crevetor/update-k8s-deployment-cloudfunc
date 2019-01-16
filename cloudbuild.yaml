@@ -4,7 +4,7 @@ steps:
   args: ['functions',
   'deploy',
   'new-image-trigger',
-  '--runtime python37',
-  '--trigger-topic projects/blog-project-228815/topics/cloud-builds',
+  '--runtime=python37',
+  '--trigger-topic=projects/blog-project-228815/topics/cloud-builds',
   '--region=us-east1',
   '--source=https://source.developers.google.com/projects/$PROJECT_ID/repos/$REPO_NAME']
