@@ -1,18 +1,5 @@
-def onNewImage(data, context):
-    import base64
-    import json
-    import kubernetes
-    import google.auth
-    import os
-    import tempfile
-    import logging
-
+def get_kube_client(project, zone, cluster):
     BASE_URL = 'https://container.googleapis.com/v1beta1/'
-    project = os.environ.get('PROJECT')
-    zone = os.environ.get('ZONE')
-    cluster = os.environ.get('CLUSTER')
-    deployment = os.environ.get('DEPLOYMENT')
-    deploy_image = os.environ.get('IMAGE')
 
     credentials, project = google.auth.default(scopes=['https://www.googleapis.com/auth/cloud-platform'])
     if not credentials.valid:
@@ -32,8 +19,23 @@ def onNewImage(data, context):
     config.api_key = {"authorization": f'Bearer {credentials.token}'}
     client = kubernetes.client.ApiClient(config)
 
-    v1 = kubernetes.client.AppsV1Api(client)
+    return kubernetes.client.AppsV1Api(client)
 
+def onNewImage(data, context):
+    import base64
+    import json
+    import kubernetes
+    import google.auth
+    import os
+    import tempfile
+    import logging
+
+    project = os.environ.get('PROJECT')
+    zone = os.environ.get('ZONE')
+    cluster = os.environ.get('CLUSTER')
+    deployment = os.environ.get('DEPLOYMENT')
+    deploy_image = os.environ.get('IMAGE')
+    target_container = os.environ.get('CONTAINER')
 
     if 'data' not in data:
         logging.error('No data key in data dict')
@@ -55,6 +57,7 @@ def onNewImage(data, context):
         logging.error(f'{image_basename} is different from {deploy_image}')
         return
 
+    v1 = get_kube_client(project, zone, cluster)
     dep = v1.read_namespaced_deployment(deployment, 'default')
     if dep is None:
         logging.error(f'There was no deployment named {deployment}')
