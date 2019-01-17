@@ -43,14 +43,24 @@ def onNewImage(data, context):
 
     decoded_data = json.loads(base64.b64decode(data['data']).decode('utf-8'))
     logging.info(f'Decoded data : {decoded_data}')
-    if decoded_data.get('action', None) is None:
-        logging.error('No action key in data')
+
+    if decoded_data.get('status', 'FAILED') != 'SUCCESS':
+        logging.error('Status was not success')
         return
 
-    image = decoded_data.get('digest', None)
-    if image is None:
-        logging.error('No digest key in data')
+    if 'results' not in decoded_data:
+        logging.error('decoded_data doesn\'t have results key')
         return
+
+    if 'images' not in decoded_data['results']:
+        logging.error('results doesn\'t have an images key')
+        return
+
+    if len(decoded_data['results']['images']) != 1:
+        logging.error('We can only work on exactly 1 image')
+        return
+
+    image = decded_data['results']['images'][0]['name']
 
     image_basename = image.split('/')[-1].split('@')[0]
     if image_basename != deploy_image:
