@@ -40,6 +40,7 @@ def onNewImage(data, context):
         return
 
     decoded_data = json.loads(base64.b64decode(data['data']).decode('utf-8'))
+    logging.info(f'Decoded data : {decoded_data}')
     if decoded_data.get('action', None) is None:
         logging.error('No action key in data')
         return
