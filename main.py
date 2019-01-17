@@ -60,7 +60,7 @@ def onNewImage(data, context):
         logging.error('We can only work on exactly 1 image')
         return
 
-    image = decded_data['results']['images'][0]['name']
+    image = decoded_data['results']['images'][0]['name']
 
     image_basename = image.split('/')[-1].split('@')[0]
     if image_basename != deploy_image:
