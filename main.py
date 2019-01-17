@@ -74,7 +74,7 @@ def onNewImage(data, context):
         return
 
     for i, container in enumerate(dep.spec.template.spec.containers):
-        if container.name == 'flask':
+        if container.name == target_container:
             dep.spec.template.spec.containers[i].image = image
     logging.info(f'Updating to {image}')
     v1.patch_namespaced_deployment(deployment, 'default', dep)
