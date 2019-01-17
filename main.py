@@ -62,7 +62,7 @@ def onNewImage(data, context):
 
     image = decoded_data['results']['images'][0]['name']
 
-    image_basename = image.split('/')[-1].split('@')[0]
+    image_basename = image.split('/')[-1].split(':')[0]
     if image_basename != deploy_image:
         logging.error(f'{image_basename} is different from {deploy_image}')
         return
