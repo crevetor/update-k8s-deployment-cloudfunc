@@ -1,4 +1,7 @@
 def get_kube_client(project, zone, cluster):
+    import google.auth
+    import kubernetes
+
     BASE_URL = 'https://container.googleapis.com/v1beta1/'
 
     credentials, project = google.auth.default(scopes=['https://www.googleapis.com/auth/cloud-platform'])
@@ -24,8 +27,6 @@ def get_kube_client(project, zone, cluster):
 def onNewImage(data, context):
     import base64
     import json
-    import kubernetes
-    import google.auth
     import os
     import tempfile
     import logging
